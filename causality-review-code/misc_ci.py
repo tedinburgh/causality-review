@@ -10,8 +10,8 @@ try:
     from palettable.colorbrewer import sequential as sq
     from palettable.colorbrewer import diverging as dv
     from palettable.colorbrewer import qualitative as ql
-except:
-    print('palettable not installed')
+except Exception as err:
+    print(err, ': please install module palettable')
 ##
 ##
 ##
@@ -107,7 +107,7 @@ def load_reshape(filename, shape):
 ## Used for simulations of linear processes and Ulam lattice
 def sim_plot1(mean_vals, std_vals, lambda_vals, ylabs, ylims = None, \
         analytic_solutions = None, nrows = 3, ncols = 4, labelpads = None, \
-        figpad = None, skip_ax = list(), figsize = None, \
+        figpad = None, skip_ax = list(), figsize = None, cols = None, \
         filename = 'ci_figure1'):
     ##
     rowcol = [(x, y) for x in range(nrows) for y in range(ncols)]
@@ -138,19 +138,22 @@ def sim_plot1(mean_vals, std_vals, lambda_vals, ylabs, ylims = None, \
                             np.array([-1, 1]) * std_vals[jj, ii, kk], \
                         c = 'black', lw = 0.1)
             ##
-            ## Blue for x>y, red for y>x
+            if cols is None:
+                ## Default: blue for x>y, red for y>x
+                cols = ['blue', 'red', 'darkblue', 'darkred']
+            ##
             ax_temp.plot(lambda_vals, mean_vals[:, ii, 0], \
-                c = 'blue', lw = 1.5, label = r'$i_{X\rightarrow Y}$')
+                c = cols[0], lw = 1.8, label = r'$i_{X\rightarrow Y}$')
             ax_temp.plot(lambda_vals, mean_vals[:, ii, 1], \
-                c = 'red', lw = 1.5, label = r'$i_{Y\rightarrow X}$')
+                c = cols[1], lw = 1.8, label = r'$i_{Y\rightarrow X}$')
             if analytic_solutions is not None:
                 as_temp = analytic_solutions[ii]
                 if as_temp is not None:
-                    ax_temp.plot(lambda_vals, as_temp[:, 0], c = 'darkblue', \
-                        lw = 1, linestyle = 'dashed', \
+                    ax_temp.plot(lambda_vals, as_temp[:, 0], c = cols[2], \
+                        lw = 1.8, linestyle = 'dashed', \
                         label = r'$i_{X\rightarrow Y}$: Analytic solution')
-                    ax_temp.plot(lambda_vals, as_temp[:, 1], c = 'darkred', \
-                        lw = 1, linestyle = 'dashed',
+                    ax_temp.plot(lambda_vals, as_temp[:, 1], c = cols[3], \
+                        lw = 1.8, linestyle = 'dashed',
                         label = r'$i_{Y\rightarrow X}$: Analytic solution')
             ax_temp.set_ylabel(ylabs[ii].upper(), labelpad = labelpads[ii])
             ## If ylims specified as an (n_ind, 2) array then include this
@@ -191,7 +194,8 @@ def sim_plot1(mean_vals, std_vals, lambda_vals, ylabs, ylims = None, \
 ## C_i = i_xy - i_yx where i is any of the causality measures
 def sim_plot2(mean_vals, std_vals, lambda_vals, ylabs, ylims = None, \
         nrows = 3, ncols = 4, skip_ax = list(), figpad = None, figsize = None, \
-        labelpads = None, filename = 'ci_figure2'):
+        cols = None, linestyles = None, labelpads = None, \
+        filename = 'ci_figure2'):
     ##
     rowcol = [(x, y) for x in range(nrows) for y in range(ncols)]
     rowcol_show = [rowcol[ii] for ii in range(len(rowcol)) if ii not in skip_ax]
@@ -218,16 +222,27 @@ def sim_plot2(mean_vals, std_vals, lambda_vals, ylabs, ylims = None, \
                             np.array([-1, 1]) * std_vals[jj, ii, kk], \
                         c = 'black', lw = 0.1)
             ## Showing simulation results for different lengths of input
+            if cols is None:
+                ## Default: blue for 10^3, red for 10^4, green for 10^5
+                cols = ['blue', 'red', 'green']
+            if linestyles is None:
+                linestyles = ['dotted', 'dashed', 'solid']
             label_str = r'i$_{X\rightarrow Y}$ - i$_{Y\rightarrow X}$, '
-            ax_temp.plot(lambda_vals, mean_vals[:, ii, 0], \
-                label = label_str + r'$T = 10^3$', \
-                c = 'blue', linestyle = 'dotted', lw = 1.5)
-            ax_temp.plot(lambda_vals, mean_vals[:, ii, 1], \
-                label = label_str + r'$T = 10^4$', \
-                c = 'red', linestyle = 'dashed', lw = 1.5)
-            ax_temp.plot(lambda_vals, mean_vals[:, ii, 2], \
-                label = label_str + r'$T = 10^5$', \
-                c = 'green', linestyle = 'solid', lw = 1.5)
+            label_str_add = [r'$T = 10^3$', r'$T = 10^4$', r'$T = 10^5$']
+            ##
+            for kk in range(3):
+                ax_temp.plot(lambda_vals, mean_vals[:, ii, kk], \
+                    label = label_str + label_str_add[kk], \
+                    c = cols[kk], linestyle = linestyles[kk], lw = 1.8)
+            # ax_temp.plot(lambda_vals, mean_vals[:, ii, 0], \
+            #     label = label_str + r'$T = 10^3$', \
+            #     c = cols[0], linestyle = linestyles[0], lw = 1.5)
+            # ax_temp.plot(lambda_vals, mean_vals[:, ii, 1], \
+            #     label = label_str + r'$T = 10^4$', \
+            #     c = cols[1], linestyle = linestyles[1], lw = 1.5)
+            # ax_temp.plot(lambda_vals, mean_vals[:, ii, 2], \
+            #     label = label_str + r'$T = 10^5$', \
+            #     c = cols[2], linestyle = linestyles[2], lw = 1.5)
             ax_temp.set_ylabel(ylabs[ii].upper(), labelpad = labelpads[ii])
             ##
             ## If ylims specified as an (n_ind, 2) array then include this
@@ -267,7 +282,7 @@ def sim_plot2(mean_vals, std_vals, lambda_vals, ylabs, ylims = None, \
 ## This is a set of heatmaps rather than plots
 def sim_plot3(vals, lambda_vals, titles, vlims = None, transpose = True, \
         vlim_percentiles = [1, 99], nrows = 3, ncols = 4, skip_ax = list(), \
-        figpad = None, figsize = None, filename = 'ci_figure3'):
+        cmap = None, figpad = None, figsize = None, filename = 'ci_figure3'):
     ##
     rowcol = [(x, y) for x in range(nrows) for y in range(ncols)]
     rowcol_show = [rowcol[ii] for ii in range(len(rowcol)) if ii not in skip_ax]
@@ -296,10 +311,13 @@ def sim_plot3(vals, lambda_vals, titles, vlims = None, transpose = True, \
                 vlims[ii, :] = np.array([-1, 1]) * np.max(np.abs(percentiles))
                 # vlim = np.max(np.abs(np.nanpercentile(results_temp,[0, 100])))
             if transpose is True:
-                vals[:, :, ii] = vals[:, :, ii].T
-            im = ax_temp.imshow(vals[:, :, ii], origin = 'lower', \
-                cmap = 'RdYlGn', vmin = vlims[ii, 0], vmax = vlims[ii, 1], \
-                extent = extent)
+                z = vals[:, :, ii].T
+            else:
+                z = vals[:, :, ii]
+            if cmap is None:
+                cmap = 'RdYlGn'
+            im = ax_temp.imshow(z, origin = 'lower', cmap = cmap, \
+                vmin = vlims[ii, 0], vmax = vlims[ii, 1], extent = extent)
             ##
             ## Set title as the indices (rather than as ylabels as in
             ## the other plotting functions)
@@ -387,7 +405,7 @@ def sim_plot4(mean_vals, std_vals, lambda_vals, ylabs, ylims = None, \
                     if linestyles is None:
                         ls = 'solid'
                     else:
-                        ls = (0, linestyles[ll])
+                        ls = linestyles[ll]
                     ax_temp.plot(lambda_vals, mean_vals[:, ii, kk, ll], \
                         c = cols[kk, ll, :], lw = 1.5, ls = ls, \
                         label = tf_names[ll, kk])
@@ -457,8 +475,8 @@ inds_time = ['te' in indices or 'ete' in indices, \
     'si1' in indices or 'si2' in indices, 'ccm' in indices]
 n_time = sum(inds_time)
 ##
-file_dir = 'cpu/final/'
-plot_dir = 'cpu/plots/'
+file_dir = 'simulation-data/'
+plot_dir = 'figures/'
 ##
 indices_plot1 = ['TE (H)', 'ETE (H)', 'TE (KSG)', 'CTIR', 'EGC', 'NLGC']
 indices_plot1 = indices_plot1 + ['PI', r'SI$^2$', r'SI$^3$', 'CCM']
@@ -469,7 +487,7 @@ plot_params = {'lambda_vals': lambda_vals, 'skip_ax': [7], \
 plot_params_egc = {'lambda_vals': lambda_vals, 'skip_ax': list(), \
     'ylabs': indices_plot2, 'figsize': [10, 7], 'figpad': [1, 0.1, 0.01]}
 plot_params_hb = {'lambda_vals': lambda_vals_hb, \
-    'skip_ax': [7], 'transpose': True, \
+    'skip_ax': [7], 'transpose': True, 'cmap': dv.RdYlBu_11_r.mpl_colormap, \
     'titles': indices_plot1, 'figsize': [11, 7], 'figpad': [1, 0.1, 0.01]}
 ##
 ##############################################################
@@ -486,12 +504,13 @@ lp_ctir_gaussian = np.array([ \
 lp_as = [lp_te_gaussian, lp_te_gaussian, lp_te_gaussian, lp_ctir_gaussian, \
     None, None, None, None, None, None]
 ##
+lp_cols = [ql.Paired_4.mpl_colors[x] for x in list([1, 3, 0, 2])]
 lp_means = np.nanmean(lp_results, axis = 0).reshape(n_lambda, n_inds, 2)
 lp_std = np.nanstd(lp_results, axis = 0).reshape(n_lambda, n_inds, 2)
 labelpads = [None, None, None, -2, None, None, None, None, None, None]
 ##
 sim_plot1(mean_vals = lp_means, std_vals = lp_std, **plot_params, \
-    labelpads = labelpads, analytic_solutions = lp_as, \
+    labelpads = labelpads, analytic_solutions = lp_as, cols = lp_cols, \
     filename = plot_dir + 'lp_figure')
 ##
 ##############################################################
@@ -512,8 +531,10 @@ ylim1 = np.array([[-0.1, 1.25], [-0.1, 1.25], [-0.2, 4.5], [-14.5, 2], \
     [-3.95, 7.25], [None, None], [-0.05, 1.05]])
 labelpads1 = [None, None, None, -2, -2, None, -1, None, None, None]
 ##
+ul_cols = [ql.Paired_4.mpl_colors[x] for x in list([1, 3])]
 sim_plot1(mean_vals = ul_means1, std_vals = ul_std1, **plot_params, \
-    ylims = ylim1, labelpads = labelpads1, filename = plot_dir + 'ul_figure1a')
+    cols = ul_cols, ylims = ylim1, labelpads = labelpads1, \
+    filename = plot_dir + 'ul_figure1a')
 ##
 ## PLOT 2: T = 10 ** 5
 ind_exclude = [16, 17, 18, 19, 81, 82, 83, 84]
@@ -536,7 +557,8 @@ ylim2 = np.array([[-0.1, 1.25], [-0.1, 1.25], [-0.2, 4.5], [-14.5, 2], \
 labelpads2 = [None, None, None, -5, -2, None, None, -2, -3, -9.5, None]
 ##
 sim_plot1(mean_vals = ul_means2, std_vals = ul_std2, **plot_params_egc, \
-    ylims = ylim2, labelpads = labelpads2, filename = plot_dir + 'ul_figure2b')
+    cols = ul_cols, ylims = ylim2, labelpads = labelpads2, \
+    filename = plot_dir + 'ul_figure2b')
 ##
 ##############################################################
 ## HENON UNIDIRECTIONAL
@@ -561,9 +583,12 @@ hu_std1[:,7,:] = hu_std[:,4,:]
 hu_std1[70:,7,:] = np.nan
 ##
 labelpads = [None, None, None, None, -4, -6, 1, None, None, None, None]
+hu_cols = ql.Dark2_3.mpl_colors[:3]
+hu_ls = [(0, (1, 0)), (0, (1, 1)), (0, (5, 2))]
 ##
 sim_plot2(mean_vals = hu_means1, std_vals = hu_std1, **plot_params_egc, \
-    labelpads = labelpads, filename = plot_dir + 'hu_figure')
+    cols = hu_cols, linestyles = hu_ls, labelpads = labelpads, \
+    filename = plot_dir + 'hu_figure')
 ##
 ##############################################################
 ## HENON BIDIRECTIONAL
@@ -586,12 +611,22 @@ def hb_vlims(vals, percentiles1 = [5, 95], percentiles2 = [1, 99]):
         vlims[ii, :] = np.min((np.max(minmax), vlim)) * np.array([-1, 1])
     return vlims
 ##
-vlims1 = hb_vlims(hb_means1)
-vlims2 = hb_vlims(hb_means2)
+def hb_vlims(vals, percentiles = [5, 95]):
+    n_inds = vals.shape[2]
+    vlims = np.zeros((n_inds, 2))
+    for ii in range(n_inds):
+        # percentiles = np.nanpercentile(vals[:, :, ii], percentiles)
+        # vlim = np.max(np.abs(percentiles) + np.diff(percentiles))
+        minmax = np.abs(np.nanpercentile(vals[:, :, ii], percentiles))
+        vlims[ii, :] = np.min(np.max(minmax)) * np.array([-1, 1])
+    return vlims
+##
+vlims1 = hb_vlims(hb_means1, percentiles = [1, 99])
+vlims2 = hb_vlims(hb_means2, percentiles = [5, 95])
 sim_plot3(vals = hb_means1, **plot_params_hb, vlims = vlims1, \
-    filename = plot_dir + 'hb_figure1')
+    filename = plot_dir + 'hb_figure1a')
 sim_plot3(vals = hb_means2, **plot_params_hb, vlims = vlims2, \
-    filename = plot_dir + 'hb_figure2')
+    filename = plot_dir + 'hb_figure2a')
 ##
 ##
 ##############################################################
@@ -642,7 +677,7 @@ def ult_cols(n, type = 'diverging', cbrewer = None, seq = None):
 ##
 ixy_str = r'i$_{X\rightarrow Y}$'
 iyx_str = r'i$_{Y\rightarrow X}$'
-ls = [(1, 0), (1, 1), (5, 2), (5, 2, 1, 2)]
+ls = [(0, (1, 0)), (0, (1, 1)), (0, (5, 2)), (0, (5, 2, 1, 2))]
 ##
 def ult_ylims(ult_means, ult_std, pad = 0.05):
     ymax = np.nanmax(ult_means + ult_std, axis = (0, 2, 3))
@@ -867,6 +902,7 @@ corr_array = np.zeros((n_inds, n_inds, len(jjs)))
 for ii in range(len(jjs) - 1):
     z = all_results[:,jjs[ii]:jjs[ii + 1],:]
     c = pd.DataFrame(z.reshape(-1,n_inds)).corr(method = 'pearson')
+    c = np.array(c)
     sp_corr = \
         np.array(pd.DataFrame(z.reshape(-1,n_inds)).corr(method = 'spearman'))
     c[np.triu_indices(n_inds)] = sp_corr[np.triu_indices(n_inds)]
@@ -876,6 +912,7 @@ for ii in range(3):
     z = all_results[:,jjs[2 * ii]:jjs[2 * ii + 1],:] - \
         all_results[:,jjs[2 * ii + 1]:jjs[2 * ii + 2],:]
     c = pd.DataFrame(z.reshape(-1,10)).corr(method = 'pearson')
+    c = np.array(c)
     sp_corr = np.array(pd.DataFrame(z.reshape(-1,10)).corr(method = 'spearman'))
     c[np.triu_indices(n_inds)] = sp_corr[np.triu_indices(n_inds)]
     corr_array_mean[:,:,ii] = c
@@ -885,7 +922,7 @@ corr_array[:,:,-1] = corr_array_mean[:,:,:-1].mean(axis = 2)
 ##
 def corr_plots(corr_array, skip_ax = list(), ylabs = None, titles = None, \
         nrows = 3, ncols = 4, indices_groups = None, figsize = None, \
-        figpad = None, fontsize = None, filename = 'corr_plot'):
+        cmap = None, figpad = None, fontsize = None, filename = 'corr_plot'):
     n_plots = corr_array.shape[2]
     n_x = corr_array.shape[0]
     rowcol = [(x, y) for x in range(nrows) for y in range(ncols)]
@@ -900,8 +937,10 @@ def corr_plots(corr_array, skip_ax = list(), ylabs = None, titles = None, \
         for ii in range(n_ax):
             ##
             ax_temp = ax[rowcol_show[ii]]
+            if cmap is None:
+                cmap = 'RdYlGn'
             im = ax_temp.imshow(corr_array[:,:,ii], origin = 'upper', \
-                    vmin = -1, vmax = 1, cmap = 'RdYlGn')
+                    vmin = -1, vmax = 1, cmap = cmap)
             group_x = [-0.5, n_x - 0.5]
             ax_temp.plot(group_x, group_x, color = 'k', lw = 1.5)
             if indices_groups is not None:
@@ -939,13 +978,7 @@ def corr_plots(corr_array, skip_ax = list(), ylabs = None, titles = None, \
             else:
                 ax_temp.tick_params('y', left = False, labelleft = False)
             ##
-            ## Add a colourbar to each subplot
-            cbar = ax_temp.figure.colorbar(im, ax = ax_temp, \
-                fraction = 0.046, pad = 0.04)
-            if fontsize is not None:
-                cbar.ax.tick_params(labelsize = fontsize[2])
-            cbar.set_ticks([-1, 0, 1])
-            ##
+        ##
         ## Add axis to the bottom right plot
         for ii in range(n_ax + len(skip_ax), nrows * ncols):
             ax[rowcol[ii]].axis('off')
@@ -957,18 +990,83 @@ def corr_plots(corr_array, skip_ax = list(), ylabs = None, titles = None, \
         else:
             plt.tight_layout(pad = figpad[0], \
                 h_pad = figpad[1], w_pad = figpad[2])
+        ##
+        plt.subplots_adjust(right = 0.95)
+        cax = plt.axes([0.95, 0.1, 0.02, 0.85])
+        cbar = plt.colorbar(im, cax = cax)
+        if fontsize is not None:
+            cax.tick_params(labelsize = fontsize[2])
+        cbar.set_ticks([-1, 0, 1])
+        ##
         pdf.savefig(fig)
         plt.close()
     return
 ##
-# plt.tight_layout(pad = 1, h_pad = 0.6, w_pad = 0.1)
 corr_plots(corr_array, titles = sims, ylabs = indices_plot1, \
     indices_groups = [4, 3, 3], figsize = [10, 7], figpad = [0.6, 0.5, 0.1], \
-    fontsize = [12, 9, 7], filename = plot_dir + 'corr_plots1a')
-corr_plots(ult_corr_array, titles = indices_plot1, ylabs = ult_corr_ylabs, \
-    indices_groups = [1, 1, 3, 3, 2, 3], skip_ax = [7], figsize = [10, 7], \
-    fontsize = [12, 9, 7], figpad = [0.6, 0.1, 0.1], \
-    filename = plot_dir + 'ult_corr_plots')
+    fontsize = [12, 9, 7], cmap = dv.PRGn_11.mpl_colormap, \
+    filename = plot_dir + 'corr_plots')
+##
+##
+def ult_corr_plot(corr_array, xlabs = None, ylabs = None, x_groups = None, \
+        y_groups = None, figsize = None, cmap = None, figpad = None, \
+        fontsize = None, filename = 'ult_corr_plot'):
+    n_x = corr_array.shape[1]
+    n_y = corr_array.shape[0]
+    with PdfPages(filename + '.pdf') as pdf:
+        if figsize is None:
+            fig, ax = plt.subplots()
+        else:
+            fig, ax = plt.subplots(figsize = figsize)
+        ##
+        if cmap is None:
+            cmap = 'RdYlGn'
+        im = ax.imshow(corr_array, origin = 'upper', \
+            vmin = -1, vmax = 1, cmap = cmap)
+        x_lims = [-0.5, n_x - 0.5]
+        y_lims = [-0.5, n_y - 0.5]
+        if x_groups is not None:
+            x_groups_cs = np.cumsum(x_groups)
+            for kk in range(len(x_groups_cs)):
+                x_vals = np.repeat(x_groups_cs[kk], 2) - 0.5
+                ax.plot(x_vals, y_lims, color = 'k', lw = 1)
+        if y_groups is not None:
+            y_groups_cs = np.cumsum(y_groups)
+            for kk in range(len(y_groups_cs)):
+                y_vals = np.repeat(y_groups_cs[kk], 2) - 0.5
+                ax.plot(x_lims, y_vals, color = 'k', lw = 1)
+        ##
+        ax.set_xticks(np.arange(n_x))
+        ax.set_xticklabels([x for x in xlabs])
+        if fontsize is not None:
+            plt.setp(ax.get_xticklabels(), fontsize = fontsize[1])
+        ax.tick_params('x', labelrotation = 90)
+        ##
+        ax.set_yticks(np.arange(n_y))
+        ax.set_yticklabels([x for x in ylabs])
+        if fontsize is not None:
+            plt.setp(ax.get_yticklabels(), fontsize = fontsize[1])
+        ## Add a colourbar to each subplot
+        cbar = ax.figure.colorbar(im, ax = ax, fraction = 0.046, pad = 0.04)
+        if fontsize is not None:
+            cbar.ax.tick_params(labelsize = fontsize[2])
+        cbar.set_ticks([-1, 0, 1])
+        ##
+        if figpad is None:
+            plt.tight_layout()
+        else:
+            plt.tight_layout(pad = figpad[0], \
+                h_pad = figpad[1], w_pad = figpad[2])
+        ##
+        pdf.savefig(fig)
+        plt.close()
+    return
+##
+ult_corr_plot(ult_corr_array[0,:,:], ylabs = ult_corr_ylabs, \
+    xlabs = indices_plot1, y_groups = [2, 3, 3, 2, 3], x_groups = [4, 3, 3], \
+    figsize = [5, 2.5], fontsize = [12, 9, 7], figpad = [0.6, 0.1, 0.1], \
+    cmap = dv.PRGn_11.mpl_colormap, filename = plot_dir + 'ult_corr_plots')
+##
 ##
 ##############################################################
 ##############################################################
