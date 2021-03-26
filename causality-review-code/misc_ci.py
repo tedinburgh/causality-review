@@ -826,10 +826,10 @@ for ii in range(n_inds):
     mask = np.triu_indices(n_tf - 2)
     ult_corr_array[:, :, ii][mask] = np.array(sp_corr)[mask]
 ult_corr_ylabs = np.array([r'$T = 10^3$', r'$T = 10^5$', 'Stand.', \
-    r'$D_{10X\rightarrow Y}$', r'$D_{X\rightarrow 10Y}$', 'X to 1dp', \
-    'Y to 1dp', 'X, Y to 2dp', '10% NA', '20% NA', \
-    r'$\sigma^2_G$ = 0.1', r'$\sigma^2_{G,X}~~$ = 1', \
-    r'$\sigma^2_{G,Y}~~~~$ = 1'])
+    r'$D_{10X\rightarrow Y}$', r'$D_{X\rightarrow 10Y}$', r'$X$ to 1dp', \
+    r'$Y$ to 1dp', r'$X$, $Y$ to 2dp', '10% NA', '20% NA', \
+    r'$\sigma^2_G$ = 0.1', r'$\sigma^2_{G,X}$ = 1', \
+    r'$\sigma^2_{G,Y}$ = 1'])
 ##
 ##############################################################
 ##############################################################
@@ -1064,7 +1064,7 @@ def ult_corr_plot(corr_array, xlabs = None, ylabs = None, x_groups = None, \
 ##
 ult_corr_plot(ult_corr_array[0,:,:], ylabs = ult_corr_ylabs, \
     xlabs = indices_plot1, y_groups = [2, 3, 3, 2, 3], x_groups = [4, 3, 3], \
-    figsize = [5, 2.5], fontsize = [12, 9, 7], figpad = [0.6, 0.1, 0.1], \
+    figsize = [5, 5], fontsize = [12, 9, 7], figpad = [0.6, 0.1, 0.1], \
     cmap = dv.PRGn_11.mpl_colormap, filename = plot_dir + 'ult_corr_plots')
 ##
 ##

@@ -237,8 +237,7 @@ def compute_indices(x, y, params, indices, logt = False, verbose = False):
         nlgc = ci.nonlinear_granger_causality(x, y, \
             mx = pa['mx'][pa['m_order'].index('nlgc')], \
             my = pa['my'][pa['m_order'].index('nlgc')], P = pa['P'], \
-            sigma = pa['sigma'], fcm_error = pa['fcm_error'], \
-            fcm_max_iter = pa['fcm_max_iter'], clustering = pa['clustering'])
+            sigma = pa['sigma'], clustering = pa['clustering'])
         if logt:
             t_vals.append(time.time() - t)
         if verbose:
@@ -381,9 +380,8 @@ if 'ul' in args.sim:
         'my': [1, 1, 1, None, 1, 1, 1, 1, 1], \
         'r': 8, 'shuffle': 10, 'k': 4, 'tau_max': 5, \
         'L': 100, 'delta': 0.5, 'min_k': 20, 'P': 50, 'sigma': 0.05, \
-        'fcm_error': 1e-6, 'fcm_max_iter': 500, 'clustering': 'kmeans', \
-        'h': 1, 'R': 1, 'R1': 20, 'R2': 20, 'N_max': None, \
-        'n_T': 20, 'exp_fit': False, 'n_samples': 40, 'rho_tol': 0.05}
+        'clustering': 'kmeans', 'h': 1, 'R': 1, \
+        'R1': 20, 'R2': 20, 'N_max': None, 'n_samples': 40, 'rho_tol': 0.05}
     ##
     ul_shape = (n_runs, n_lambda, n_inds * 4), (n_runs, n_lambda, n_time * 2)
     ul_results = np.zeros(ul_shape[0])
@@ -432,9 +430,8 @@ if 'hu' in args.sim:
         'my': [1, 1, 1, None, 2, 2, 2, 2, 2], \
         'r': 8, 'shuffle': 10, 'k': 4, 'tau_max': 5, \
         'L': 100, 'delta': 0.5, 'min_k': 20, 'P': 50, 'sigma': 0.05, \
-        'fcm_error': 1e-6, 'fcm_max_iter': 500, 'clustering': 'kmeans', \
-        'h': 1, 'R': 1, 'R1': 20, 'R2': 20, 'N_max': None, \
-        'n_T': 20, 'exp_fit': False, 'n_samples': 40, 'rho_tol': 0.05}
+        'clustering': 'kmeans', 'h': 1, 'R': 1, \
+        'R1': 20, 'R2': 20, 'N_max': None, 'n_samples': 40, 'rho_tol': 0.05}
     ##
     hu_shape = (n_runs, n_lambda, n_inds * 3), (n_runs, n_lambda, n_time * 3)
     hu_results = np.zeros(hu_shape[0])
@@ -482,9 +479,8 @@ if 'hb' in args.sim:
         'my': [1, 1, 1, None, 2, 2, 2, 2, 2], \
         'r': 8, 'shuffle': 10, 'k': 4, 'tau_max': 5, \
         'L': 100, 'delta': 0.6, 'min_k': 20, 'P': 10, 'sigma': 0.05, \
-        'fcm_error': 1e-6, 'fcm_max_iter': 500, 'clustering': 'kmeans', \
-        'h': 1, 'R': 1, 'R1': 20, 'R2': 100, 'N_max': None, \
-        'n_T': 20, 'exp_fit': False, 'n_samples': 40, 'rho_tol': 0.05}
+        'clustering': 'kmeans', 'h': 1, 'R': 1, \
+        'R1': 20, 'R2': 100, 'N_max': None, 'n_samples': 40, 'rho_tol': 0.05}
     ##
     hb_shape = (n_runs, n_lambda_hb, n_inds), \
         (n_runs, n_lambda_hb, n_time)
@@ -597,9 +593,8 @@ if 'ult' in args.sim:
         'my': [1, 1, 1, None, 1, 1, 1, 1, 1], \
         'r': 8, 'shuffle': 10, 'k': 4, 'tau_max': 5, \
         'L': 100, 'delta': 0.5, 'min_k': 20, 'P': 50, 'sigma': 0.05, \
-        'fcm_error': 1e-6, 'fcm_max_iter': 500, 'clustering': 'kmeans', \
-        'h': 1, 'R': 1, 'R1': 20, 'R2': 20, 'N_max': None, \
-        'n_samples': 40, 'rho_tol': 0.05}
+        'clustering': 'kmeans', 'h': 1, 'R': 1, \
+        'R1': 20, 'R2': 20, 'N_max': None, 'n_samples': 40, 'rho_tol': 0.05}
     ##
     ult_shape = (n_runs, n_lambda_tf, 2 * n_inds, n_tf), \
         (n_runs, n_lambda_tf, n_time, n_tf)
