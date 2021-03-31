@@ -760,7 +760,6 @@ def similarity_indices(x, y, mx = 2, my = 2, R1 = 10, R2 = 10, \
             pts[:, x_cols], metric = met).sum() for ii in range(n)]) / (n - 1)
         dn_t_y = np.array([cdist(pts[ii, y_cols].reshape(1, -1), \
             pts[:, y_cols], metric = met).sum() for ii in range(n)]) / (n - 1)
-        dn_t_y /= (n - 1)
     else:
         np.random.seed(seed)
         ind = np.random.choice(n, N_max)

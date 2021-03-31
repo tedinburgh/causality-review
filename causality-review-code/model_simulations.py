@@ -341,9 +341,8 @@ if 'lp' in args.sim:
         'my': [1, 1, 1, None, 2, 2, 1, 2, 2], \
         'r': 8, 'shuffle': 10, 'k': 4, 'tau_max': 20, \
         'L': 20, 'delta': 0.8, 'min_k': 20, 'P': 10, 'sigma': 0.05, \
-        'fcm_error': 1e-4, 'fcm_max_iter': 500, 'clustering': 'kmeans', \
-        'h': 1, 'R': 10, 'R1': 10, 'R2': 30, 'N_max': None, \
-        'n_T': 20, 'exp_fit': False, 'n_samples': 40, 'rho_tol': 0.05}
+        'clustering': 'kmeans', 'h': 1, 'R': 10, \
+        'R1': 10, 'R2': 30, 'N_max': None, 'n_samples': 40, 'rho_tol': 0.05}
     ##
     lp_shape = (n_runs, n_lambda, 2 * n_inds), (n_runs, n_lambda, n_time)
     lp_results = np.zeros(lp_shape[0])
@@ -356,9 +355,6 @@ if 'lp' in args.sim:
             x, y = simulated_data(N = 10 ** 4, lambda_ = lambda_vals[jj], \
                 map_type = 'linear_process', N_discard = 10 ** 4, \
                 seed = ii * 101)
-            f = open('xy_current_lp.txt', 'w')
-            np.savetxt(f, np.hstack((ii, jj, x, y)))
-            f.close()
             lp_results[ii, jj, :], lp_time[ii, jj, :] = \
                 compute_indices(x, y, lp_params, **ci_args)
         ##
@@ -389,11 +385,6 @@ if 'ul' in args.sim:
     ci_args = {'indices': indices, 'logt': logt, 'verbose': verbose}
     print('Starting: Ulam lattice')
     print(time.ctime())
-    ##
-    # for n in range(1, 2):
-    #     kk = range(n * n_inds * 2, (n + 1) * n_inds * 2), \
-    #         range(n * n_time, (n + 1) * n_time)
-    #     for jj in range(16, n_lambda):
     for n in range(2):
         kk = range(n * n_inds * 2, (n + 1) * n_inds * 2), \
             range(n * n_time, (n + 1) * n_time)
@@ -402,13 +393,7 @@ if 'ul' in args.sim:
                 x, y, _ = simulated_data(N = 10 ** [3, 5][n], \
                     lambda_ = lambda_vals[jj], map_type = 'ulam_lattice', \
                     N_discard = 10 ** 5, seed = ii * 101)
-                # f = open('xy_current_ul.txt', 'w')
-                # np.savetxt(f, np.hstack((ii, jj, n, x, y)))
-                # f.close()
-                ##
                 ul_params['delta'] = [0.5, 0.2][n]
-                # ul_params['tau_max'] = [15, 8][n]
-                # ul_params['clustering'] = ['cmeans', 'kmeans'][n]
                 ul_results[ii, jj, kk[0]], ul_time[ii, jj, kk[1]] = \
                     compute_indices(x, y, ul_params, **ci_args)
             ##
@@ -452,8 +437,6 @@ if 'hu' in args.sim:
                 hu_params['delta'] = [0.5, 0.3, 0.2][n]
                 hu_params['P'] = [50, 50, 100][n]
                 hu_params['N_max'] = [None, None, 10 ** 4][n]
-                # hu_params['tau_max'] = [15, 10, 8][n]
-                # hu_params['clustering'] = ['cmeans', 'kmeans', 'kmeans'][n]
                 hu_ind_z = range(n * n_time, (n + 1) * n_time)
                 c_output, hu_time[ii, jj, hu_ind_z] = \
                     compute_indices(x, y, hu_params, **ci_args)
@@ -496,9 +479,6 @@ if 'hb' in args.sim:
             x, y = simulated_data(N = 10 ** 4, lambda_ = lambda_vals_jj, \
                 map_type = 'henon_bidirectional', \
                 N_discard = 10 ** 5, seed = ii * 101)
-            # f = open('xy_current_hb.txt', 'w')
-            # np.savetxt(f, np.hstack((ii, jj, x, y)))
-            # f.close()
             ##
             c_output, hb_time[ii, jj, :] = \
                 compute_indices(x, y, hb_params, **ci_args)
@@ -611,9 +591,6 @@ if 'ult' in args.sim:
             for ll in range(n_tf):
                 np.random.seed(ll * 102)
                 x, y = transform((x_sim, y_sim), **tf_list[ll])
-                f = open('xy_current_ult.txt', 'w')
-                np.savetxt(f, np.hstack((ii, jj, ll, x, y)))
-                f.close()
                 ult_results[ii, jj, :, ll], ult_time[ii, jj, :, ll] = \
                     compute_indices(x, y, ult_params, **ci_args)
         print('Completed run: ' + str(ii) + ' for ulam map')

@@ -475,13 +475,13 @@ inds_time = ['te' in indices or 'ete' in indices, \
     'si1' in indices or 'si2' in indices, 'ccm' in indices]
 n_time = sum(inds_time)
 ##
-file_dir = 'simulation-data/'
-plot_dir = 'figures/'
+file_dir = '../simulation-data/'
+plot_dir = '../figures/'
 ##
 indices_plot1 = ['TE (H)', 'ETE (H)', 'TE (KSG)', 'CTIR', 'EGC', 'NLGC']
-indices_plot1 = indices_plot1 + ['PI', r'SI$^2$', r'SI$^3$', 'CCM']
-indices_plot2 = ['TE (H)', 'ETE (H)', 'TE (KSG)', 'CTIR', 'EGC', 'NLGC']
-indices_plot2 = indices_plot2 + ['PI', 'EGC*', r'SI$^2$', r'SI$^3$', 'CCM']
+indices_plot1 = indices_plot1 + ['PI', r'SI$^{(1)}$', r'SI$^{(2)}$', 'CCM']
+indices_plot2 = ['TE (H)', 'ETE (H)', 'TE (KSG)', 'CTIR', 'EGC', 'NLGC', 'PI']
+indices_plot2 = indices_plot2 + ['EGC*', r'SI$^{(1)}$', r'SI$^{(2)}$', 'CCM']
 plot_params = {'lambda_vals': lambda_vals, 'skip_ax': [7], \
     'ylabs': indices_plot1, 'figsize': [10, 7], 'figpad': [1, 0.1, 0.01]}
 plot_params_egc = {'lambda_vals': lambda_vals, 'skip_ax': list(), \
@@ -534,7 +534,7 @@ labelpads1 = [None, None, None, -2, -2, None, -1, None, None, None]
 ul_cols = [ql.Paired_4.mpl_colors[x] for x in list([1, 3])]
 sim_plot1(mean_vals = ul_means1, std_vals = ul_std1, **plot_params, \
     cols = ul_cols, ylims = ylim1, labelpads = labelpads1, \
-    filename = plot_dir + 'ul_figure1a')
+    filename = plot_dir + 'ul_figure1')
 ##
 ## PLOT 2: T = 10 ** 5
 ind_exclude = [16, 17, 18, 19, 81, 82, 83, 84]
@@ -558,7 +558,7 @@ labelpads2 = [None, None, None, -5, -2, None, None, -2, -3, -9.5, None]
 ##
 sim_plot1(mean_vals = ul_means2, std_vals = ul_std2, **plot_params_egc, \
     cols = ul_cols, ylims = ylim2, labelpads = labelpads2, \
-    filename = plot_dir + 'ul_figure2b')
+    filename = plot_dir + 'ul_figure2')
 ##
 ##############################################################
 ## HENON UNIDIRECTIONAL
@@ -699,6 +699,7 @@ ult_means_ylim[:,5:7,:,:3] = np.nan
 ylims2 = ult_ylims( \
     np.insert(ult_means_ylim[:,:,:,:13], [0], ul_means_ylim, axis = 3),  \
     np.insert(ult_std[:,:,:,:13], [0], ul_std_ylim, axis = 3))
+ylims3 = ult_ylims(ul_means_ylim, ul_std_ylim)
 ##
 ##
 ##
