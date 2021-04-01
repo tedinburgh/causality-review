@@ -184,6 +184,7 @@ def sim_plot1(mean_vals, std_vals, lambda_vals, ylabs, ylims = None, \
         else:
             plt.tight_layout(pad = figpad[0], \
                 h_pad = figpad[1], w_pad = figpad[2])
+        plt.savefig(filename + '.eps', format = 'eps', dpi = 300)
         pdf.savefig(fig)
         plt.close()
     ## end function sim_plot1
@@ -271,6 +272,7 @@ def sim_plot2(mean_vals, std_vals, lambda_vals, ylabs, ylims = None, \
         else:
             plt.tight_layout(pad = figpad[0], \
                 h_pad = figpad[1], w_pad = figpad[2])
+        plt.savefig(filename + '.eps', format = 'eps', dpi = 300)
         pdf.savefig(fig)
         plt.close()
     ## end function sim_plot2
@@ -353,6 +355,7 @@ def sim_plot3(vals, lambda_vals, titles, vlims = None, transpose = True, \
         else:
             plt.tight_layout(pad = figpad[0], \
                 h_pad = figpad[1], w_pad = figpad[2])
+        plt.savefig(filename + '.eps', format = 'eps', dpi = 300)
         pdf.savefig(fig)
         plt.close()
     ## end function sim_plot3
@@ -444,6 +447,7 @@ def sim_plot4(mean_vals, std_vals, lambda_vals, ylabs, ylims = None, \
         else:
             plt.tight_layout(pad = figpad[0], \
                 h_pad = figpad[1], w_pad = figpad[2])
+        plt.savefig(filename + '.eps', format = 'eps', dpi = 300)
         pdf.savefig(fig)
         plt.close()
     ## end function sim_plot4
@@ -999,6 +1003,7 @@ def corr_plots(corr_array, skip_ax = list(), ylabs = None, titles = None, \
             cax.tick_params(labelsize = fontsize[2])
         cbar.set_ticks([-1, 0, 1])
         ##
+        plt.savefig(filename + '.eps', format = 'eps', dpi = 300)
         pdf.savefig(fig)
         plt.close()
     return
@@ -1059,6 +1064,7 @@ def ult_corr_plot(corr_array, xlabs = None, ylabs = None, x_groups = None, \
             plt.tight_layout(pad = figpad[0], \
                 h_pad = figpad[1], w_pad = figpad[2])
         ##
+        plt.savefig(filename + '.eps', format = 'eps', dpi = 300)
         pdf.savefig(fig)
         plt.close()
     return
