@@ -1,5 +1,10 @@
+## CODECHECK notes
+##
 ## These are the instructions for regenerating figure 3 of our paper.
-
+## To regenerate all the data woudl take around 60 hourss, so we have
+## selected on figure (3) to reproduce as this is the quickest.
+##
+## Steps
 
 ## Clone the repository
 
