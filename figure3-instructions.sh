@@ -27,7 +27,8 @@ mv causality-review-code/*.csv simulation-data
 cd causality-review-code/
 python misc.py
 
-## Re-generate the figures.
+## The python code currently errors at line 519, or thereabouts, but figure
+## 3 will have been generated in the figures/ folder.
 
 ## At the end, to close the virtual environment, you can simply do:
 
