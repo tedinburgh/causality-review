@@ -4,6 +4,13 @@
 ## To regenerate all the data woudl take around 60 hourss, so we have
 ## selected on figure (3) to reproduce as this is the quickest.
 ##
+## Requirements
+##
+## Anaconda with Python (at least 3.8.3).
+
+
+
+
 ## Steps
 
 ## Clone the repository
