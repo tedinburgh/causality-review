@@ -24,6 +24,8 @@ time python causality-review-code/model_simulations.py --sim lp
 ## After the simulation has run, we now copy the simulation results into the
 ## required folder.
 mv causality-review-code/*.csv simulation-data
+cd causality-review-code/
+python misc.py
 
 ## Re-generate the figures.
 
@@ -37,5 +39,5 @@ conda deactivate
 
 ## DAMTP specific instructions
 ## see also: https://www.maths.cam.ac.uk/computing/software/using-python
-sje30@macro:~ $ module load miniconda3
-sje30@macro:~ $ source activate anaconda-2020.11
+## sje30@macro:~ $ module load miniconda3
+## sje30@macro:~ $ source activate anaconda-2020.11
