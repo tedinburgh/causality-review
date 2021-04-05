@@ -1,4 +1,14 @@
 ## CODECHECK notes
+## Paper: 
+## Edinburgh T, Eglen SJ, Ercole A (2021)
+## Causality indices for bivariate time series data: a comparative review
+## of performance. arXiv [statME]
+## Available at: http://arxiv.org/abs/2104.00718.
+##
+## ORCids:
+## https://orcid.org/0000-0002-3599-7133
+## https://orcid.org/0000-0001-8607-8025
+## https://orcid.org/0000-0001-8350-8093
 ##
 ## These are the instructions for regenerating figure 3 of our paper.
 ## To regenerate all the data woudl take around 60 hourss, so we have
