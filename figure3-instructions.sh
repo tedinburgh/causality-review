@@ -47,10 +47,7 @@ time python causality-review-code/model_simulations.py --sim lp
 ## required folder.
 mv causality-review-code/*.csv simulation-data
 cd causality-review-code/
-python misc.py
-
-## The python code currently errors at line 519, or thereabouts, but figure
-## 3 will have been generated in the figures/ folder.
+python figure3.py
 
 ## At the end, to close the virtual environment, you can simply do:
 
