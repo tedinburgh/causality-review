@@ -1,4 +1,4 @@
-# Review of causality analysis methods for bivariate timeseries
+# Review of causality indices for bivariate time series data
 ---
 Code (python), figures and data for a review of the performance of causality indices for bivariate time series data. This review follows previous work by Lungarella et al. (2007).
 
@@ -28,7 +28,7 @@ $ git clone https://github.com/tedinburgh/causality-review
 # Go into the repository
 $ cd causality-review
 
-# Install dependencies
+# Install dependencies and create virtual environment
 $ conda create --name causality_test --file requirements.txt
 $ conda activate causality_test
 ```
@@ -48,6 +48,12 @@ $ python causality-review-code/model_simulations.py --sim lp
 
 # Ulam lattice simulations, nonlinear Granger causality
 $ python causality-review-code/model_simulations.py --sim ul --ind nlgc
+```
+
+To close the virtual environment after usage:
+
+```bash
+conda deactivate
 ```
 
 ## References

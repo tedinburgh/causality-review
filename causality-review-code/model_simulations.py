@@ -137,6 +137,8 @@ parser.add_argument('--verbose', type = bool, default = True, \
     dest = 'verbose', help = 'Verbose')
 parser.add_argument('--logt', type = bool, default = True, \
     dest = 'logt', help = 'Log time values')
+parser.add_argument('--output_dir', default = 'simulation-data/', \
+    dest = 'output_dir', help = 'Directory for output files')
 ##
 args = parser.parse_args()
 args.sim = args.sim.split()
@@ -144,6 +146,7 @@ verbose = args.verbose
 indices = args.indices.split(',')
 indices = [x for x in indices if x in indices_list]
 logt = args.logt
+dir = args.output_dir
 ##
 xy_list = ['xy', 'yx']
 inds = [x + '_' + y for x in indices for y in xy_list]
@@ -359,12 +362,12 @@ if 'lp' in args.sim:
                 compute_indices(x, y, lp_params, **ci_args)
         ##
         print('Completed run: ' + str(ii) + ' for linear process')
-        save_reshape(lp_results, lp_shape[0], filename = 'lp_values')
-        save_reshape(lp_time, lp_shape[1], filename = 'lp_time')
+        save_reshape(lp_results, lp_shape[0], filename = dir + 'lp_values')
+        save_reshape(lp_time, lp_shape[1], filename = dir + 'lp_time')
         print(time.ctime())
     ##
-    save_reshape(lp_results, lp_shape[0], filename = 'lp_values')
-    save_reshape(lp_time, lp_shape[1], filename = 'lp_time')
+    save_reshape(lp_results, lp_shape[0], filename = dir + 'lp_values')
+    save_reshape(lp_time, lp_shape[1], filename = dir + 'lp_time')
     print(time.ctime())
 ##
 ##
@@ -398,12 +401,12 @@ if 'ul' in args.sim:
                     compute_indices(x, y, ul_params, **ci_args)
             ##
             print('Completed run: ' + str(ii) + ' for Ulam lattice')
-            save_reshape(ul_results, ul_shape[0], filename = 'ul_values')
-            save_reshape(ul_time, ul_shape[1], filename = 'ul_time')
+            save_reshape(ul_results, ul_shape[0], filename = dir + 'ul_values')
+            save_reshape(ul_time, ul_shape[1], filename = dir + 'ul_time')
             print(time.ctime())
     ##
-    save_reshape(ul_results, ul_shape[0], filename = 'ul_values')
-    save_reshape(ul_time, ul_shape[1], filename = 'ul_time')
+    save_reshape(ul_results, ul_shape[0], filename = dir + 'ul_values')
+    save_reshape(ul_time, ul_shape[1], filename = dir + 'ul_time')
     print(time.ctime())
 ##
 ##
@@ -445,12 +448,12 @@ if 'hu' in args.sim:
                         c_output[2 * kk] - c_output[2 * kk + 1]
             ##
             print('Completed run: ' + str(ii) + ' for Henon unidirectional map')
-            save_reshape(hu_results, hu_shape[0], filename = 'hu_values')
-            save_reshape(hu_time, hu_shape[1], filename = 'hu_time')
+            save_reshape(hu_results, hu_shape[0], filename = dir + 'hu_values')
+            save_reshape(hu_time, hu_shape[1], filename = dir + 'hu_time')
             print(time.ctime())
     ##
-    save_reshape(hu_results, hu_shape[0], filename = 'hu_values')
-    save_reshape(hu_time, hu_shape[1], filename = 'hu_time')
+    save_reshape(hu_results, hu_shape[0], filename = dir + 'hu_values')
+    save_reshape(hu_time, hu_shape[1], filename = dir + 'hu_time')
     print(time.ctime())
 ##
 ##
@@ -485,12 +488,12 @@ if 'hb' in args.sim:
             for kk in range(n_inds):
                 hb_results[ii, jj, kk] = c_output[2 * kk] - c_output[2 * kk + 1]
         print('Completed run: ' + str(ii) + ' for Henon bidirectional map')
-        save_reshape(hb_results, hb_shape[0], filename = 'hb_values')
-        save_reshape(hb_time, hb_shape[1], filename = 'hb_time')
+        save_reshape(hb_results, hb_shape[0], filename = dir + 'hb_values')
+        save_reshape(hb_time, hb_shape[1], filename = dir + 'hb_time')
         print(time.ctime())
     ##
-    save_reshape(hb_results, hb_shape[0], filename = 'hb_values')
-    save_reshape(hb_time, hb_shape[1], filename = 'hb_time')
+    save_reshape(hb_results, hb_shape[0], filename = dir + 'hb_values')
+    save_reshape(hb_time, hb_shape[1], filename = dir + 'hb_time')
     print(time.ctime())
 ##
 ##
@@ -553,17 +556,14 @@ def transform(tup, **kwargs):
 lambda_vals_tf = np.arange(0, 1 + 0.01, 0.01)
 n_lambda_tf = len(lambda_vals_tf)
 ##
-tf_list = np.array([ \
-    {'y_to_x': True}, {'y_to_x': True, 'scale_x': 2}, \
-    {'normalise': True}, {'scale_x': 10, 'scale_y': 1}, \
-    {'scale_x': 1, 'scale_y': 10}, {'round_x': 1}, \
-    {'round_y': 1}, {'round_x': 2, 'round_y': 2}, \
-    {'na_x': 10, 'na_y': 0}, {'na_x': 0, 'na_y': 10}, \
+tf_list = np.array([{'normalise': True}, \
+    {'scale_x': 10, 'scale_y': 1}, {'scale_x': 1, 'scale_y': 10}, \
+    {'round_x': 1}, {'round_y': 1}, {'round_x': 2, 'round_y': 2}, \
     {'na_x': 10, 'na_y': 10}, {'na_x': 20, 'na_y': 20}, \
     {'gaussian_x': 0.1, 'gaussian_y': 0.1}, \
     {'gaussian_x': 1}, {'gaussian_y': 1}])
 n_tf = len(tf_list)
-tf_split = [2, 3, 4, 4, 3]
+tf_split = [3, 3, 2, 3]
 ##
 ## Ulam lattice with transformations
 if 'ult' in args.sim:
@@ -594,9 +594,9 @@ if 'ult' in args.sim:
                 ult_results[ii, jj, :, ll], ult_time[ii, jj, :, ll] = \
                     compute_indices(x, y, ult_params, **ci_args)
         print('Completed run: ' + str(ii) + ' for ulam map')
-        save_reshape(ult_results, ult_shape[0], filename = 'ult_values')
-        save_reshape(ult_time, ult_shape[1], filename = 'ult_time')
+        save_reshape(ult_results, ult_shape[0], filename = dir + 'ult_values')
+        save_reshape(ult_time, ult_shape[1], filename = dir + 'ult_time')
         print(time.ctime())
     ##
-    save_reshape(ult_results, ult_shape[0], filename = 'ult_values')
-    save_reshape(ult_time, ult_shape[1], filename = 'ult_time')
+    save_reshape(ult_results, ult_shape[0], filename = dir + 'ult_values')
+    save_reshape(ult_time, ult_shape[1], filename = dir + 'ult_time')
