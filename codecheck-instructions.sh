@@ -10,9 +10,11 @@
 ## https://orcid.org/0000-0001-8607-8025
 ## https://orcid.org/0000-0001-8350-8093
 ##
-## These are the instructions for regenerating figure 3 of our paper.
-## To regenerate all the data woudl take around 60 hourss, so we have
-## selected on figure (3) to reproduce as this is the quickest.
+## These are the instructions for regenerating Figure 3 of our paper
+## from scratch, and all other figures from existing .csv files.
+## To regenerate all the data from scratch would take approximately 
+## 60 hours, so we have selected Figure 3 to reproduce as this is the 
+## quickest.
 ##
 ## Requirements
 ##

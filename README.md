@@ -1,6 +1,6 @@
 # Review of causality indices for bivariate time series data
 ---
-Code (python), figures and data for a review of the performance of causality indices for bivariate time series data. This review follows previous work by Lungarella et al. (2007).
+Code (python), figures and data for a review of the performance of causality indices for bivariate time series data. The accompanying manuscript is available as a preprint at http://arxiv.org/abs/2104.00718 (Edinburgh et al. 2021). This review follows previous work by Lungarella et al. (2007).
 
 Methods included in this review are:
 * Extended Granger causality (Chen et al. 2004)
@@ -36,18 +36,34 @@ $ conda activate causality_test
 To generate all figures from the .csv data files in this repository, run: 
 
 ```bash
-# Run script for all figures
+# Run script to generate all figures and all tables
 $ python causality-review-code/misc_ci.py
+
+# Run script to generate the figure with linear process (LP) results
+$ python causality-review-code/misc_ci.py --figure lp --table none
+
+# Argument --figure can be any of: corr-all (Figure 2), lp (Figure 3), ul (Figure 4a)
+# hu (Figure 4b), hb (Figure 5a,5b), corr-ul-transforms (Figure S1), 
+# ul-scaling (Figure S2a), ul-rounding (Figure S2b), ul-missing (Figure S3a), 
+# ul-gaussian (Figure S3b)
+# Argument --table can be any of: ul-transforms (Table III), 
+# computational-times (Table S.II). The output is a string that can used in a .tex file. 
 ```
 
 To generate .csv data files, run e.g.:
 
 ```bash
-# Linear process simulations, all methods
+# Linear process (LP) simulations, all methods
 $ python causality-review-code/model_simulations.py --sim lp
 
-# Ulam lattice simulations, nonlinear Granger causality
+# Ulam lattice (UL) simulations, nonlinear Granger causality (NLGC)
 $ python causality-review-code/model_simulations.py --sim ul --ind nlgc
+
+# Argument --sim can be any of: lp, ul, hu, hb, ult (note the latter is transformations)
+# Argument --ind can be any of: te, ete, te-ksg, ctir, egc, nlgc, pi, si1, si2, ccm
+# (Note a comma-separated list of methods can also be given, with no spaces, e.g.)
+$ python causality-review-code/model_simulations.py --sim ul --ind egc,nlgc,ccm
+
 ```
 
 To close the virtual environment after usage:
@@ -57,6 +73,8 @@ conda deactivate
 ```
 
 ## References
+
+T. Edinburgh, S.J. Eglen, and A. Ercole, "Causality indices for bivariate time series data: a comparative review of performance," arXiv [statME]. Available at: http://arxiv.org/abs/2104.00718 (2021)
 
 M. Lungarella, K. Ishiguro, Y. Kuniyoshi, and N. Otsu, “Methods for quantifying the causal structure of bivariate time series,” Int. J. Bifurcat. Chaos 17, 903–921 (2007)
 
