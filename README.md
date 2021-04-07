@@ -1,4 +1,4 @@
-# causality-review
+# Review of causality analysis methods for bivariate timeseries
 ---
 Code (python), figures and data for a review of the performance of causality indices for bivariate time series data. This review follows previous work by Lungarella et al. (2007).
 
