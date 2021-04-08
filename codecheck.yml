@@ -1,0 +1,56 @@
+---
+version: https://codecheck.org.uk/spec/config/1.0/
+
+manifest:
+  - file: simulation-data/lp_values.csv
+    comment: Results of running linear process (LP) simulations
+  - file: simulation-data/lp_time.csv
+    comment: Computational times for each linear process (LP) simulations
+  - file: figures/corr_plots.pdf
+  - file: figures/corr_plots.eps
+    comment: Figure 2 in paper (pdf/eps)
+  - file: figures/lp_figure.pdf
+  - file: figures/lp_figure.eps
+    comment: Figure 3 in paper (pdf/eps)
+  - file: figures/ul_figure.pdf
+  - file: figures/ul_figure.eps
+    comment: Figure 4a in paper (pdf/eps)
+  - file: figures/hu_figure.pdf
+  - file: figures/hu_figure.eps
+    comment: Figure 4b in paper (pdf/eps)
+  - file: figures/hb_figure1.pdf
+  - file: figures/hb_figure1.eps
+    comment: Figure 5a in paper (pdf/eps)
+  - file: figures/hb_figure2.pdf
+  - file: figures/hb_figure2.eps
+    comment: Figure 5b in paper (pdf/eps)
+  - file: figures/corr_transforms_plots.pdf
+  - file: figures/corr_transforms_plots.eps
+    comment: Figure S1 in paper (pdf/eps)
+  - file: figures/ul_scaling_figure.pdf
+  - file: figures/ul_scaling_figure.eps
+    comment: Figure S2a in paper (pdf/eps)
+  - file: figures/ul_rounding_figure.pdf
+  - file: figures/ul_rounding_figure.eps
+    comment: Figure S2b in paper (pdf/eps)
+  - file: figures/ul_missing_figure.pdf
+  - file: figures/ul_missing_figure.eps
+    comment: Figure S3a in paper (pdf/eps)
+  - file: figures/ul_gaussian_figure.pdf
+  - file: figures/ul_gaussian_figure.eps
+    comment: Figure S3b in paper (pdf/eps)
+  - file: figures/ul-transforms.txt
+    comment: Table III in paper (LaTex code). Note: small error in paper in Baseline column, TE (H)/ETE (H) to be correct in arXiv. This is already corrected in journal submission.
+  - file: figures/computational-times.txt
+    comment: Table S.II in paper (LaTex code)
+
+paper:
+  title: "Causality indices for bivariate time series data: a comparative review of performance"
+  authors:
+    - name: Tom Edinburgh
+      ORCID: 0000-0002-3599-7133
+    - name: Stephen J. Eglen
+      ORCID: 0000-0001-8607-8025
+    - name: Ari Ercole
+      ORCID: 0000-0001-8350-8093
+  reference: https://arxiv.org/abs/2104.00718
