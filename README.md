@@ -63,7 +63,6 @@ $ python causality-review-code/model_simulations.py --sim ul --ind nlgc
 # Argument --ind can be any of: te, ete, te-ksg, ctir, egc, nlgc, pi, si1, si2, ccm
 # (Note a comma-separated list of methods can also be given, with no spaces, e.g.)
 $ python causality-review-code/model_simulations.py --sim ul --ind egc,nlgc,ccm
-
 ```
 
 To close the virtual environment after usage:
@@ -71,6 +70,28 @@ To close the virtual environment after usage:
 ```bash
 conda deactivate
 ```
+
+To use some of the causality indices on your own data, move the causality_indices.py 
+script to your working directory and include the following line in your own python script:
+```bash
+import causality_indices as ci
+```
+Each function requires two variables 'x' and 'y' as separate inputs, and most of the
+functions return two outputs, the first is the value of the index from x to y (i.e. 
+the causal effect of x on y) and the second is the value of the index from y to x.  
+An example usage is:
+```bash
+import numpy as np
+import causality_indices as ci
+n = 1000
+x = np.random.normal(size = n)
+y = np.random.normal(scale = 0.5, size = n)
+y[1:] += x[:-1] 
+te = ci.transfer_entropy_ksg(x, y)
+```
+Make sure you have the modules in requirements.txt installed in your environment and 
+note that your data must be sampled at regular time intervals for these methods.
+
 
 ## References
 
@@ -88,7 +109,9 @@ T. Schreiber, “Measuring information transfer,” Phys. Rev. Lett.85, 461–46
 
 A. Kraskov, H. Stögbauer, and P. Grassberger, “Estimating mutual information,” (2004)
 
-R. Marschinski and H. Kantz, “Analysing the information flow between financial time series,” The European Physical Journal B - Condensed Matter and Complex Systems 30, 275–281 (2002)
+R. Marschinski and H. Kantz, “Analysing the information flow between financial time
+
+ series,” The European Physical Journal B - Condensed Matter and Complex Systems 30, 275–281 (2002)
 
 M. Paluš, V. Komárek, Z. Hrncír, and K. Sterbová, “Synchronization as adjustment of information rates: detection from bivariate time series,” Phys. Rev. E Stat. Nonlin. Soft Matter Phys. 63, 046211 (2001)
 

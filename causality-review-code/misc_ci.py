@@ -45,7 +45,7 @@ def load_reshape(filename, shape):
 def sim_plot1(mean_vals, std_vals, lambda_vals, ylabs, ylims = None, \
         analytic_solutions = None, nrows = 3, ncols = 4, labelpads = None, \
         figpad = None, skip_ax = list(), figsize = None, cols = None, \
-        filename = 'ci_figure1'):
+        filetype = 'eps', filename = 'ci_figure1'):
     ##
     rowcol = [(x, y) for x in range(nrows) for y in range(ncols)]
     ## If we want to skip an axis (in order to group certain indices then use
@@ -56,7 +56,7 @@ def sim_plot1(mean_vals, std_vals, lambda_vals, ylabs, ylims = None, \
     if labelpads == None:
         labelpads = [None] * n_inds
     ##
-    with PdfPages(filename + '.pdf') as pdf:
+    with PdfPages(filename + '.pdf', keep_empty = False) as pdf:
         ##
         if figsize is None:
             fig, ax = plt.subplots(nrows = nrows, ncols = ncols, sharex = True)
@@ -121,8 +121,10 @@ def sim_plot1(mean_vals, std_vals, lambda_vals, ylabs, ylims = None, \
         else:
             plt.tight_layout(pad = figpad[0], \
                 h_pad = figpad[1], w_pad = figpad[2])
-        plt.savefig(filename + '.eps', format = 'eps', dpi = 300)
-        pdf.savefig(fig)
+        if filetype == 'eps':
+            plt.savefig(filename + '.eps', format = 'eps', dpi = 300)
+        elif filetype == 'pdf':
+            pdf.savefig(fig)
         plt.close()
     ## end function sim_plot1
 ##
@@ -133,7 +135,7 @@ def sim_plot1(mean_vals, std_vals, lambda_vals, ylabs, ylims = None, \
 def sim_plot2(mean_vals, std_vals, lambda_vals, ylabs, ylims = None, \
         nrows = 3, ncols = 4, skip_ax = list(), figpad = None, figsize = None, \
         cols = None, linestyles = None, labelpads = None, \
-        filename = 'ci_figure2'):
+        filetype = 'eps', filename = 'ci_figure2'):
     ##
     rowcol = [(x, y) for x in range(nrows) for y in range(ncols)]
     rowcol_show = [rowcol[ii] for ii in range(len(rowcol)) if ii not in skip_ax]
@@ -142,7 +144,7 @@ def sim_plot2(mean_vals, std_vals, lambda_vals, ylabs, ylims = None, \
     if labelpads == None:
         labelpads = [None] * n_inds
     ##
-    with PdfPages(filename + '.pdf') as pdf:
+    with PdfPages(filename + '.pdf', keep_empty = False) as pdf:
         ##
         if figsize is None:
             fig, ax = plt.subplots(nrows = nrows, ncols = ncols, sharex = True)
@@ -209,8 +211,10 @@ def sim_plot2(mean_vals, std_vals, lambda_vals, ylabs, ylims = None, \
         else:
             plt.tight_layout(pad = figpad[0], \
                 h_pad = figpad[1], w_pad = figpad[2])
-        plt.savefig(filename + '.eps', format = 'eps', dpi = 300)
-        pdf.savefig(fig)
+        if filetype == 'eps':
+            plt.savefig(filename + '.eps', format = 'eps', dpi = 300)
+        elif filetype == 'pdf':
+            pdf.savefig(fig)
         plt.close()
     ## end function sim_plot2
 ##
@@ -221,7 +225,8 @@ def sim_plot2(mean_vals, std_vals, lambda_vals, ylabs, ylims = None, \
 ## This is a set of heatmaps rather than plots
 def sim_plot3(vals, lambda_vals, titles, vlims = None, transpose = True, \
         vlim_percentiles = [1, 99], nrows = 3, ncols = 4, skip_ax = list(), \
-        cmap = None, figpad = None, figsize = None, filename = 'ci_figure3'):
+        cmap = None, figpad = None, figsize = None, \
+        filetype = 'eps', filename = 'ci_figure3'):
     ##
     rowcol = [(x, y) for x in range(nrows) for y in range(ncols)]
     rowcol_show = [rowcol[ii] for ii in range(len(rowcol)) if ii not in skip_ax]
@@ -230,7 +235,7 @@ def sim_plot3(vals, lambda_vals, titles, vlims = None, transpose = True, \
     extent = np.min(lambda_vals[0]), np.max(lambda_vals[0]), \
         np.min(lambda_vals[1]), np.max(lambda_vals[1])
     ##
-    with PdfPages(filename + '.pdf') as pdf:
+    with PdfPages(filename + '.pdf', keep_empty = False) as pdf:
         ##
         if figsize is None:
             fig, ax = plt.subplots(nrows = nrows, ncols = ncols, \
@@ -292,8 +297,10 @@ def sim_plot3(vals, lambda_vals, titles, vlims = None, transpose = True, \
         else:
             plt.tight_layout(pad = figpad[0], \
                 h_pad = figpad[1], w_pad = figpad[2])
-        plt.savefig(filename + '.eps', format = 'eps', dpi = 200)
-        pdf.savefig(fig)
+        if filetype == 'eps':
+            plt.savefig(filename + '.eps', format = 'eps', dpi = 300)
+        elif filetype == 'pdf':
+            pdf.savefig(fig)
         plt.close()
     ## end function sim_plot3
 ##
@@ -304,7 +311,7 @@ def sim_plot3(vals, lambda_vals, titles, vlims = None, transpose = True, \
 def sim_plot4(mean_vals, std_vals, lambda_vals, ylabs, ylims = None, \
         cols = None, tf_names = None, nrows = 3, ncols = 4, labelpads = None, \
         figpad = None, skip_ax = list(), figsize = None, linestyles = None, \
-        yticks = None, filename = 'ci_figure4'):
+        yticks = None, filetype = 'eps', filename = 'ci_figure4'):
     ##
     rowcol = [(x, y) for x in range(nrows) for y in range(ncols)]
     ## If we want to skip an axis (in order to group certain indices then use
@@ -323,7 +330,7 @@ def sim_plot4(mean_vals, std_vals, lambda_vals, ylabs, ylims = None, \
         tf_names = np.array(['Result' + str(x) for x in np.arange(n_tf * n_xy)])
         tf_names = tf_names.reshape(n_tf, n_xy)
     ##
-    with PdfPages(filename + '.pdf') as pdf:
+    with PdfPages(filename + '.pdf', keep_empty = False) as pdf:
         ##
         if figsize is None:
             fig, ax = plt.subplots(nrows = nrows, ncols = ncols, sharex = True)
@@ -387,21 +394,24 @@ def sim_plot4(mean_vals, std_vals, lambda_vals, ylabs, ylims = None, \
         else:
             plt.tight_layout(pad = figpad[0], \
                 h_pad = figpad[1], w_pad = figpad[2])
-        plt.savefig(filename + '.eps', format = 'eps', dpi = 300)
-        pdf.savefig(fig)
+        if filetype == 'eps':
+            plt.savefig(filename + '.eps', format = 'eps', dpi = 300)
+        elif filetype == 'pdf':
+            pdf.savefig(fig)
         plt.close()
     ## end function sim_plot4
 ##
 ##
 def corr_plots(corr_array, skip_ax = list(), ylabs = None, titles = None, \
         nrows = 3, ncols = 4, indices_groups = None, figsize = None, \
-        cmap = None, figpad = None, fontsize = None, filename = 'corr_plot'):
+        cmap = None, figpad = None, fontsize = None, \
+        filetype = 'eps', filename = 'corr_plot'):
     n_plots = corr_array.shape[2]
     n_x = corr_array.shape[0]
     rowcol = [(x, y) for x in range(nrows) for y in range(ncols)]
     rowcol_show = [rowcol[ii] for ii in range(len(rowcol)) if ii not in skip_ax]
     n_ax = np.min((nrows * ncols, n_plots))
-    with PdfPages(filename + '.pdf') as pdf:
+    with PdfPages(filename + '.pdf', keep_empty = False) as pdf:
         if figsize is None:
             fig, ax = plt.subplots(nrows = nrows, ncols = ncols)
         else:
@@ -471,8 +481,10 @@ def corr_plots(corr_array, skip_ax = list(), ylabs = None, titles = None, \
             cax.tick_params(labelsize = fontsize[2])
         cbar.set_ticks([-1, 0, 1])
         ##
-        plt.savefig(filename + '.eps', format = 'eps', dpi = 200)
-        pdf.savefig(fig)
+        if filetype == 'eps':
+            plt.savefig(filename + '.eps', format = 'eps', dpi = 300)
+        elif filetype == 'pdf':
+            pdf.savefig(fig)
         plt.close()
     return
     ## end function corr_plots
@@ -480,12 +492,13 @@ def corr_plots(corr_array, skip_ax = list(), ylabs = None, titles = None, \
 ##
 def corr_transforms_plot(corr_array, xlabs = None, ylabs = None, \
         x_groups = None, y_groups = None, figsize = None, cmap = None, \
-        figpad = None, fontsize = None, filename = 'corr_transforms_plot'):
+        figpad = None, fontsize = None, \
+        filetype = 'eps', filename = 'corr_transforms_plot'):
     ##
     n_x = corr_array.shape[1]
     n_y = corr_array.shape[0]
     ##
-    with PdfPages(filename + '.pdf') as pdf:
+    with PdfPages(filename + '.pdf', keep_empty = False) as pdf:
         if figsize is None:
             fig, ax = plt.subplots()
         else:
@@ -530,8 +543,10 @@ def corr_transforms_plot(corr_array, xlabs = None, ylabs = None, \
             plt.tight_layout(pad = figpad[0], \
                 h_pad = figpad[1], w_pad = figpad[2])
         ##
-        plt.savefig(filename + '.eps', format = 'eps', dpi = 200)
-        pdf.savefig(fig)
+        if filetype == 'eps':
+            plt.savefig(filename + '.eps', format = 'eps', dpi = 300)
+        elif filetype == 'pdf':
+            pdf.savefig(fig)
         plt.close()
     return
 ##
@@ -1136,21 +1151,34 @@ if 'ul-transforms' in tables:
     ult_table[:,1:,1] /= ult_table[:,:1,1]
     ult_table = np.round(ult_table, 3)
     inds_order = [4,5,6,0,1,2,3,7,8,9]
+    ult_table = ult_table[inds_order,:,:]
+    bold_mean = np.abs(ult_table[:,:,0]).argmin(axis = 0)
+    bold_std = np.abs(ult_table[:,:,1] - 1).argmin(axis = 0)
+    bold_std[1] = np.abs(ult_table[:,1,1]).argmin(axis = 0)
+    ##
     str_table = ''
-    for ii in inds_order:
-        str_table = str_table + indices_plot1[ii]
-        str_table = str_table + r' & $\langle\mu\rangle$ = '
-        str_table = str_table + str('%.3f' % ult_table[ii,0,0])
-        str_table = str_table + r' & $f(\mu,\hat{\mu})$'
+    for ii in range(n_inds):
+        str_table += indices_plot1[inds_order[ii]]
+        str_table += r' & $\langle\mu\rangle$ = '
+        str_table += str('%.3f' % ult_table[ii,0,0]) + r' & $f(\mu,\hat{\mu})$'
         for jj in range(1, n_tf + 2):
-            str_table = str_table + ' & ' + str('%.3f' % ult_table[ii,jj,0])
-        str_table = str_table + r' \\' + '\n'
-        str_table = str_table + r' & $\langle\sigma\rangle$ = '
-        str_table = str_table + str('%.3f' % ult_table[ii,0,1])
-        str_table = str_table + r' & $g(\sigma,\hat{\sigma})$'
+            str_table += ' & '
+            if bold_mean[jj] == ii:
+                str_table += r'\textbf{'
+            str_table += str('%.3f' % ult_table[ii,jj,0])
+            if bold_mean[jj] == ii:
+                str_table += '}'
+        str_table += r' \\' + '\n' + r' & $\langle\sigma\rangle$ = '
+        str_table += str('%.3f' % ult_table[ii,0,1])
+        str_table += r' & $g(\sigma,\hat{\sigma})$'
         for jj in range(1, n_tf + 2):
-            str_table = str_table + ' & ' + str('%.3f' % ult_table[ii,jj,1])
-        str_table = str_table + r' \\' + '\n'
+            str_table += ' & '
+            if bold_std[jj] == ii:
+                str_table += r'\textbf{'
+            str_table += str('%.3f' % ult_table[ii,jj,1])
+            if bold_std[jj] == ii:
+                str_table += '}'
+        str_table += r' \\' + '\n'
     txt_table = open(plot_dir + 'ul-transforms.txt', 'w')
     txt_table.write(str_table)
     txt_table.close()
@@ -1196,14 +1224,28 @@ if 'computational-times' in tables:
     indices_time = indices_time + [r'SI$^{(1,2)}$', 'CCM']
     ## order is EGC, NLGC, PI, ETE (H), TE (KSG), CTIR, SI, CCM
     inds_order = [3,4,5,0,1,2,6,7]
+    time_table = time_table[inds_order,:,:]
+    bold_mean = np.abs(time_table[:,:,0]).argmin(axis = 0)
+    bold_std = np.abs(time_table[:,:,1]).argmin(axis = 0)
+    ##
     str_table = ''
-    for ii in inds_order:
-        str_table = str_table + indices_time[ii]
+    for ii in range(n_time):
+        str_table += indices_time[inds_order[ii]]
         for jj in range(8):
-            str_table = str_table + ' & ' + str('%.3f' % time_table[ii,jj,0])
-            str_table = str_table + ' (' + str('%.3f' % time_table[ii,jj,1])
-            str_table = str_table + ') '
-        str_table = str_table + r' \\' + '\n'
+            str_table += ' & '
+            if bold_mean[jj] == ii:
+                str_table += r'\textbf{'
+            str_table += str('%.3f' % time_table[ii,jj,0])
+            if bold_mean[jj] == ii:
+                str_table += '}'
+            str_table += ' ('
+            if bold_std[jj] == ii:
+                str_table += r'\textbf{'
+            str_table += str('%.3f' % time_table[ii,jj,1])
+            if bold_std[jj] == ii:
+                str_table += '}'
+            str_table += ') '
+        str_table += r' \\' + '\n'
     txt_table = open(plot_dir + 'computational-times.txt', 'w')
     txt_table.write(str_table)
     txt_table.close()

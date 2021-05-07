@@ -586,7 +586,7 @@ def nonlinear_granger_causality(x, y, mx, my, P = 50, sigma = 0.05, \
     ## There were some instances where there were more than P unique points
     ## but the difference between some non-unique points was < 10e-15, so
     ## in reality there were < P clusters, hence a rounding to eliminate this
-    if pts.shape[0] == 0:
+    if pts.shape[0] < P:
         return np.nan, np.nan
     if np.unique(pts[:, x_cols].round(decimals = decimal_threshold), \
             axis = 0).shape[0] <= P and min_P == True:

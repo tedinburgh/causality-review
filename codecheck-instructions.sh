@@ -23,10 +23,14 @@
 
 ## Steps
 
-## Clone the repository
-
-git clone https://github.com/tedinburgh/causality-review
-cd causality-review
+## Clone the repository (It is expected that the following steps have
+## already been performed. If you have not already cloned the
+## repository but you have this script, you can add these two lines 
+## back in and then run this script, though we advise cloning the 
+## repository first.## repository first.## repository first.)
+ 
+# git clone https://github.com/tedinburgh/causality-review
+# cd causality-review
 
 ## To run our code, you will need python 3.8.3 at least together
 ## with extra packages; these are installed into a virtual environment:

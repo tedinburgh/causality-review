@@ -5,44 +5,33 @@ manifest:
   - file: simulation-data/lp_values.csv
     comment: Results of running linear process (LP) simulations
   - file: simulation-data/lp_time.csv
-    comment: Computational times for each linear process (LP) simulations
-  - file: figures/corr_plots.pdf
+    comment: Computational times for each linear process (LP) simulations. This will not be reproduced exactly, as it represents measured execution times.
   - file: figures/corr_plots.eps
-    comment: Figure 2 in paper (pdf/eps)
-  - file: figures/lp_figure.pdf
+    comment: Figure 2 in paper. Note, there is a warning message about image transparency but this does not change output. The following warnings are also expected: 'RuntimeWarning: Mean of empty slice', 'RuntimeWarning: invalid value encountered in greater', 'RuntimeWarning: invalid value encountered in less'.
   - file: figures/lp_figure.eps
-    comment: Figure 3 in paper (pdf/eps)
-  - file: figures/ul_figure.pdf
+    comment: Figure 3 in paper. Note, there is a warning message about image transparency but this does not change output.
   - file: figures/ul_figure.eps
-    comment: Figure 4a in paper (pdf/eps)
-  - file: figures/hu_figure.pdf
+    comment: Figure 4a in paper. Note, there is a warning message about image transparency but this does not change output. The following warnings are also expected: 'RuntimeWarning: Mean of empty slice', 'RuntimeWarning: Degrees of freedom <= 0 for slice'.
   - file: figures/hu_figure.eps
-    comment: Figure 4b in paper (pdf/eps)
-  - file: figures/hb_figure1.pdf
+    comment: Figure 4b in paper. Note, there is a warning message about image transparency but this does not change output. The following warnings are also expected: 'RuntimeWarning: Mean of empty slice', 'RuntimeWarning: Degrees of freedom <= 0 for slice'.
   - file: figures/hb_figure1.eps
-    comment: Figure 5a in paper (pdf/eps)
-  - file: figures/hb_figure2.pdf
+    comment: Figure 5a in paper. Note, there is a warning message about image transparency but this does not change output. The following warning is also expected: 'RuntimeWarning: Mean of empty slice'.
   - file: figures/hb_figure2.eps
-    comment: Figure 5b in paper (pdf/eps)
-  - file: figures/corr_transforms_plots.pdf
+    comment: Figure 5b in paper. Note, there is a warning message about image transparency but this does not change output.
   - file: figures/corr_transforms_plots.eps
-    comment: Figure S1 in paper (pdf/eps)
-  - file: figures/ul_scaling_figure.pdf
+    comment: Figure S1 in paper. Note, there is a warning message about image transparency but this does not change output.
   - file: figures/ul_scaling_figure.eps
-    comment: Figure S2a in paper (pdf/eps)
-  - file: figures/ul_rounding_figure.pdf
+    comment: Figure S2a in paper. Note, there is a warning message about image transparency but this does not change output.
   - file: figures/ul_rounding_figure.eps
-    comment: Figure S2b in paper (pdf/eps)
-  - file: figures/ul_missing_figure.pdf
+    comment: Figure S2b in paper. Note, there is a warning message about image transparency but this does not change output.
   - file: figures/ul_missing_figure.eps
-    comment: Figure S3a in paper (pdf/eps)
-  - file: figures/ul_gaussian_figure.pdf
+    comment: Figure S3a in paper. Note, there is a warning message about image transparency but this does not change output.
   - file: figures/ul_gaussian_figure.eps
-    comment: Figure S3b in paper (pdf/eps)
+    comment: Figure S3b in paper. Note, there is a warning message about image transparency but this does not change output.
   - file: figures/ul-transforms.txt
-    comment: Table III in paper (LaTex code). Note: small error in paper in Baseline column, TE (H)/ETE (H) to be correct in arXiv. This is already corrected in journal submission.
+    comment: Table III in paper (LaTex code). Note, small errors in arXiv submission (v1) for TE(H)/TE(KSG) Baseline column, plus for NLGC/CCM in the final three columns. This will be corrected in arXiv submission (v2) and paper submission imminently. The following warning is also expected: 'RuntimeWarning: Degrees of freedom <= 0 for slice'.
   - file: figures/computational-times.txt
-    comment: Table S.II in paper (LaTex code)
+    comment: Table S.II in paper (LaTex code). This will not be reproduced exactly, as it represents measured execution times.
 
 paper:
   title: "Causality indices for bivariate time series data: a comparative review of performance"

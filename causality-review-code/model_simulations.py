@@ -133,16 +133,19 @@ parser.add_argument('--simulations', '--sim', '-s', \
 parser.add_argument('--indices', \
     default = 'te,ete,te-ksg,ctir,egc,nlgc,pi,si1,si2,ccm', \
     dest = 'indices', help = 'Causality indices to be computed')
-parser.add_argument('--verbose', type = bool, default = True, \
-    dest = 'verbose', help = 'Verbose')
+parser.add_argument('--verbose', type = bool, default = False, \
+    dest = 'verbose', help = 'Verbose reporting of each simulation time value')
+parser.add_argument('--progress', type = bool, default = True, \
+    dest = 'progress', help = 'Progress of simulation')
 parser.add_argument('--logt', type = bool, default = True, \
-    dest = 'logt', help = 'Log time values')
+    dest = 'logt', help = 'Log the execution time values')
 parser.add_argument('--output_dir', default = 'simulation-data/', \
     dest = 'output_dir', help = 'Directory for output files')
 ##
 args = parser.parse_args()
 args.sim = args.sim.split()
 verbose = args.verbose
+progress = args.progress
 indices = args.indices.split(',')
 indices = [x for x in indices if x in indices_list]
 logt = args.logt
@@ -351,7 +354,8 @@ if 'lp' in args.sim:
     lp_results = np.zeros(lp_shape[0])
     lp_time = np.zeros(lp_shape[1])
     ci_args = {'indices': indices, 'logt': logt, 'verbose': verbose}
-    print('Starting: linear process')
+    if progress:
+        print('Starting: linear process')
     ##
     for jj in range(n_lambda):
         for ii in range(n_runs):
@@ -361,14 +365,21 @@ if 'lp' in args.sim:
             lp_results[ii, jj, :], lp_time[ii, jj, :] = \
                 compute_indices(x, y, lp_params, **ci_args)
         ##
-        print('Completed run: ' + str(ii) + ' for linear process')
+        if progress:
+            print_str = 'Completed all ' + str(n_runs) + ' runs, '
+            print_str += 'lambda = ' + str('%.2f' % lambda_vals[jj]) + ': '
+            n_percent = 100 * (jj * n_runs + ii) / (n_lambda * n_runs)
+            print_str += str(round(n_percent, 1)) + '% complete'
+            print(print_str)
         save_reshape(lp_results, lp_shape[0], filename = dir + 'lp_values')
         save_reshape(lp_time, lp_shape[1], filename = dir + 'lp_time')
-        print(time.ctime())
+        if progress:
+            print(time.ctime())
     ##
     save_reshape(lp_results, lp_shape[0], filename = dir + 'lp_values')
     save_reshape(lp_time, lp_shape[1], filename = dir + 'lp_time')
-    print(time.ctime())
+    if progress:
+        print(time.ctime())
 ##
 ##
 ## Ulam lattice
@@ -386,8 +397,9 @@ if 'ul' in args.sim:
     ul_results = np.zeros(ul_shape[0])
     ul_time = np.zeros(ul_shape[1])
     ci_args = {'indices': indices, 'logt': logt, 'verbose': verbose}
-    print('Starting: Ulam lattice')
-    print(time.ctime())
+    if progress:
+        print('Starting: Ulam lattice')
+        print(time.ctime())
     for n in range(2):
         kk = range(n * n_inds * 2, (n + 1) * n_inds * 2), \
             range(n * n_time, (n + 1) * n_time)
@@ -400,14 +412,22 @@ if 'ul' in args.sim:
                 ul_results[ii, jj, kk[0]], ul_time[ii, jj, kk[1]] = \
                     compute_indices(x, y, ul_params, **ci_args)
             ##
-            print('Completed run: ' + str(ii) + ' for Ulam lattice')
+            if progress:
+                print_str = 'Completed all ' + str(n_runs) + ' runs, '
+                print_str += 'lambda = ' + str('%.2f' % lambda_vals[jj]) + ': '
+                n_percent = 100 * (n * n_lambda * n_runs + jj * n_runs + ii)
+                n_percent /= (n_lambda * n_runs * 2)
+                print_str += str(round(n_percent, 1)) + '% complete'
+                print(print_str)
             save_reshape(ul_results, ul_shape[0], filename = dir + 'ul_values')
             save_reshape(ul_time, ul_shape[1], filename = dir + 'ul_time')
-            print(time.ctime())
+            if progress:
+                print(time.ctime())
     ##
     save_reshape(ul_results, ul_shape[0], filename = dir + 'ul_values')
     save_reshape(ul_time, ul_shape[1], filename = dir + 'ul_time')
-    print(time.ctime())
+    if progress:
+        print(time.ctime())
 ##
 ##
 ## Henon unidirectional map
@@ -425,7 +445,9 @@ if 'hu' in args.sim:
     hu_results = np.zeros(hu_shape[0])
     hu_time = np.zeros(hu_shape[1])
     ci_args = {'indices': indices, 'logt': logt, 'verbose': verbose}
-    print('Starting: Henon unidirectional')
+    if progress:
+        print('Starting: Henon unidirectional')
+        print(time.ctime())
     ##
     for n in range(3):
         for jj in range(n_lambda): #n_lambda
@@ -447,14 +469,22 @@ if 'hu' in args.sim:
                     hu_results[ii, jj, n_inds * n + kk] = \
                         c_output[2 * kk] - c_output[2 * kk + 1]
             ##
-            print('Completed run: ' + str(ii) + ' for Henon unidirectional map')
+            if progress:
+                print_str = 'Completed all ' + str(n_runs) + ' runs, '
+                print_str += 'lambda = ' + str('%.2f' % lambda_vals[jj]) + ': '
+                n_percent = 100 * (n * n_lambda * n_runs + jj * n_runs + ii)
+                n_percent /= (n_lambda * n_runs * 3)
+                print_str += str(round(n_percent, 1)) + '% complete'
+                print(print_str)
             save_reshape(hu_results, hu_shape[0], filename = dir + 'hu_values')
             save_reshape(hu_time, hu_shape[1], filename = dir + 'hu_time')
-            print(time.ctime())
+            if progress:
+                print(time.ctime())
     ##
     save_reshape(hu_results, hu_shape[0], filename = dir + 'hu_values')
     save_reshape(hu_time, hu_shape[1], filename = dir + 'hu_time')
-    print(time.ctime())
+    if progress:
+        print(time.ctime())
 ##
 ##
 ## Henon bidirectional map
@@ -473,7 +503,9 @@ if 'hb' in args.sim:
     hb_results = np.zeros(hb_shape[0])
     hb_time = np.zeros(hb_shape[1])
     ci_args = {'indices': indices, 'logt': logt, 'verbose': verbose}
-    print('Starting: Henon bidirectional')
+    if progress:
+        print('Starting: Henon bidirectional')
+        print(time.ctime())
     ##
     for jj in range(n_lambda_hb):
         for ii in range(n_runs):
@@ -487,14 +519,21 @@ if 'hb' in args.sim:
                 compute_indices(x, y, hb_params, **ci_args)
             for kk in range(n_inds):
                 hb_results[ii, jj, kk] = c_output[2 * kk] - c_output[2 * kk + 1]
-        print('Completed run: ' + str(ii) + ' for Henon bidirectional map')
+        if progress:
+            print_str = 'Completed all ' + str(n_runs) + ' runs, lambda =  '
+            print_str += ', '.join([str('%.2f' % x) for x in lambda_vals_jj])
+            n_percent = 100 * (jj * n_runs + ii) / (n_lambda_hb * n_runs)
+            print_str += ': ' + str('%.2f' % n_percent) + '% complete'
+            print(print_str)
         save_reshape(hb_results, hb_shape[0], filename = dir + 'hb_values')
         save_reshape(hb_time, hb_shape[1], filename = dir + 'hb_time')
-        print(time.ctime())
+        if progress:
+            print(time.ctime())
     ##
     save_reshape(hb_results, hb_shape[0], filename = dir + 'hb_values')
     save_reshape(hb_time, hb_shape[1], filename = dir + 'hb_time')
-    print(time.ctime())
+    if progress:
+        print(time.ctime())
 ##
 ##
 ##############################################################
@@ -581,9 +620,12 @@ if 'ult' in args.sim:
     ult_results = np.zeros(ult_shape[0])
     ult_time = np.zeros(ult_shape[1])
     ci_args = {'indices': indices, 'logt': logt, 'verbose': verbose}
-    print('Starting: ulam map (transformations)')
+    if progress:
+        print('Starting: Ulam map (transformations)')
+        print(time.ctime())
+    n_lambda = len(lambda_vals_tf)
     ##
-    for jj in range(len(lambda_vals_tf)):
+    for jj in range(n_lambda):
         for ii in range(n_runs):
             x_sim, y_sim, _ = simulated_data(N = 10 ** 3, \
                 lambda_ = lambda_vals_tf[jj], map_type = 'ulam_lattice', \
@@ -593,10 +635,18 @@ if 'ult' in args.sim:
                 x, y = transform((x_sim, y_sim), **tf_list[ll])
                 ult_results[ii, jj, :, ll], ult_time[ii, jj, :, ll] = \
                     compute_indices(x, y, ult_params, **ci_args)
-        print('Completed run: ' + str(ii) + ' for ulam map')
+        if progress:
+            print_str = 'Completed all ' + str(n_runs) + ' runs, lambda = '
+            print_str += str('%.2f' % lambda_vals_tf[jj]) + ': '
+            n_percent = 100 * (jj * n_runs + ii) / (n_lambda * n_runs)
+            print_str += str(round(n_percent, 1)) + '% complete'
+            print(print_str)
         save_reshape(ult_results, ult_shape[0], filename = dir + 'ult_values')
         save_reshape(ult_time, ult_shape[1], filename = dir + 'ult_time')
-        print(time.ctime())
+        if progress:
+            print(time.ctime())
     ##
     save_reshape(ult_results, ult_shape[0], filename = dir + 'ult_values')
     save_reshape(ult_time, ult_shape[1], filename = dir + 'ult_time')
+    if progress:
+        print(time.ctime())
