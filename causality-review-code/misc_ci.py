@@ -1152,9 +1152,10 @@ if 'ul-transforms' in tables:
     ult_table = np.round(ult_table, 3)
     inds_order = [4,5,6,0,1,2,3,7,8,9]
     ult_table = ult_table[inds_order,:,:]
-    bold_mean = np.abs(ult_table[:,:,0]).argmin(axis = 0)
-    bold_std = np.abs(ult_table[:,:,1] - 1).argmin(axis = 0)
-    bold_std[1] = np.abs(ult_table[:,1,1]).argmin(axis = 0)
+    argmins = lambda x: np.where(np.abs(x) == np.abs(x).min())[0]
+    bold_mean = [argmins(ult_table[:,jj,0]) for jj in range(n_tf + 2)]
+    bold_std = [argmins(ult_table[:,jj,1] - 1) for jj in range(n_tf + 2)]
+    bold_std[1] = argmins(ult_table[:,1,1])
     ##
     str_table = ''
     for ii in range(n_inds):
@@ -1163,20 +1164,20 @@ if 'ul-transforms' in tables:
         str_table += str('%.3f' % ult_table[ii,0,0]) + r' & $f(\mu,\hat{\mu})$'
         for jj in range(1, n_tf + 2):
             str_table += ' & '
-            if bold_mean[jj] == ii:
+            if np.any(bold_mean[jj] == ii):
                 str_table += r'\textbf{'
             str_table += str('%.3f' % ult_table[ii,jj,0])
-            if bold_mean[jj] == ii:
+            if np.any(bold_mean[jj] == ii):
                 str_table += '}'
         str_table += r' \\' + '\n' + r' & $\langle\sigma\rangle$ = '
         str_table += str('%.3f' % ult_table[ii,0,1])
         str_table += r' & $g(\sigma,\hat{\sigma})$'
         for jj in range(1, n_tf + 2):
             str_table += ' & '
-            if bold_std[jj] == ii:
+            if np.any(bold_std[jj] == ii):
                 str_table += r'\textbf{'
             str_table += str('%.3f' % ult_table[ii,jj,1])
-            if bold_std[jj] == ii:
+            if np.any(bold_std[jj] == ii):
                 str_table += '}'
         str_table += r' \\' + '\n'
     txt_table = open(plot_dir + 'ul-transforms.txt', 'w')
@@ -1227,22 +1228,25 @@ if 'computational-times' in tables:
     time_table = time_table[inds_order,:,:]
     bold_mean = np.abs(time_table[:,:,0]).argmin(axis = 0)
     bold_std = np.abs(time_table[:,:,1]).argmin(axis = 0)
+    argmins = lambda x: np.where(np.abs(x) == np.abs(x).min())[0]
+    bold_mean = [argmins(time_table[:,jj,0]) for jj in range(8)]
+    bold_std = [argmins(time_table[:,jj,1]) for jj in range(8)]
     ##
     str_table = ''
     for ii in range(n_time):
         str_table += indices_time[inds_order[ii]]
         for jj in range(8):
             str_table += ' & '
-            if bold_mean[jj] == ii:
+            if np.any(bold_mean[jj] == ii):
                 str_table += r'\textbf{'
             str_table += str('%.3f' % time_table[ii,jj,0])
-            if bold_mean[jj] == ii:
+            if np.any(bold_mean[jj] == ii):
                 str_table += '}'
             str_table += ' ('
-            if bold_std[jj] == ii:
+            if np.any(bold_std[jj] == ii):
                 str_table += r'\textbf{'
             str_table += str('%.3f' % time_table[ii,jj,1])
-            if bold_std[jj] == ii:
+            if np.any(bold_std[jj] == ii):
                 str_table += '}'
             str_table += ') '
         str_table += r' \\' + '\n'

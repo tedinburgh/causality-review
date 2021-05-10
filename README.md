@@ -1,4 +1,4 @@
-# Review of causality indices for bivariate time series data
+# Causality indices for bivariate time series data: a comparative review of performance [![CODECHECK](https://codecheck.org.uk/img/codeworks-badge.svg)](https://doi.org/zenodo.4720843)
 ---
 Code (python), figures and data for a review of the performance of causality indices for bivariate time series data. The accompanying manuscript is available as a preprint at http://arxiv.org/abs/2104.00718 (Edinburgh et al. 2021). This review follows previous work by Lungarella et al. (2007).
 
@@ -92,6 +92,8 @@ te = ci.transfer_entropy_ksg(x, y)
 Make sure you have the modules in requirements.txt installed in your environment and 
 note that your data must be sampled at regular time intervals for these methods.
 
+
+A CODECHECK certificate is available confirming that the computations underlying this article could be independently executed: [https://doi.org/zenodo.4720843](https://doi.org/zenodo.4720843)
 
 ## References
 
